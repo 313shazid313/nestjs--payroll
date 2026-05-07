@@ -11,7 +11,7 @@ import { UserRole } from '../users.entity';
 
 export class RegisterUserDto {
   @IsNotEmpty()
-  @IsArray()
+  @IsArray({ message: 'roles should be array' })
   @IsEnum(UserRole, { each: true })
   roles: UserRole[];
 
