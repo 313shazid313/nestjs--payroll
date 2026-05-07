@@ -13,11 +13,6 @@ export class Employees {
   })
   name!: string;
 
-  @ManyToOne(() => Department, (department) => department.id, {
-    nullable: false,
-  })
-  department_id!: Department;
-
   @Column({
     type: 'varchar',
     nullable: false,
@@ -26,8 +21,36 @@ export class Employees {
   email!: string;
 
   @Column({
+    type: 'varchar',
+    nullable: false,
+    length: 100,
+  })
+  phone!: string;
+
+  @ManyToOne(() => Department, (department) => department.id, {
+    nullable: false,
+  })
+  department_id!: Department;
+
+  @Column({
     type: 'number',
     nullable: false,
   })
-  base_salary!: string;
+  base_salary!: number;
+
+  @Column({
+    type: 'boolean',
+    nullable: false,
+  })
+  status!: boolean;
+
+  @Column({
+    type: 'date',
+    nullable: false,
+  })
+  joiningDate: Date;
+
+  constructor() {
+    this.joiningDate = new Date();
+  }
 }
