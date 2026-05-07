@@ -10,7 +10,7 @@ export enum UserRole {
 @Entity()
 export class Users {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column({
     type: 'varchar',
@@ -18,14 +18,14 @@ export class Users {
     length: 100,
     unique: true,
   })
-  email: string;
+  email!: string;
 
   @Column({
     type: 'varchar',
     nullable: false,
     length: 100,
   })
-  password: string;
+  password!: string;
 
   @Column({
     type: 'enum',
@@ -33,5 +33,5 @@ export class Users {
     enum: UserRole,
     default: [UserRole.ADMIN],
   })
-  roles: UserRole[];
+  roles!: UserRole[];
 }
