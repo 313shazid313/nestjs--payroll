@@ -33,7 +33,7 @@ export class Employees {
   department_id!: Department;
 
   @Column({
-    type: 'number',
+    type: 'int',
     nullable: false,
   })
   base_salary!: number;

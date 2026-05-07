@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Department } from './department.entity';
 import { Repository } from 'typeorm';
 import { DepartmentDto } from './dtos/department.dto';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 @Injectable()
 export class DepartmentService {
@@ -12,6 +13,23 @@ export class DepartmentService {
   ) {}
 
   async createDepartment(departmentDto: DepartmentDto) {
+    console.log('Received department DTO:', departmentDto);
+
+    const existingDepartment = await this.departmentRepository.findOne({
+      where: { name: departmentDto.name },
+    });
+
+    if (existingDepartment) {
+      throw new HttpException(
+        {
+          success: false,
+          message: 'Department with this name already exists',
+          errorCode: 'DEPARTMENT_ALREADY_EXISTS',
+        },
+        HttpStatus.CONFLICT,
+      );
+    }
+
     const department = this.departmentRepository.create({
       name: departmentDto.name,
     });
