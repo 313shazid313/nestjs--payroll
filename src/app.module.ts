@@ -10,6 +10,7 @@ import { EmployeesModule } from './employees/employees.module';
 import { DepartmentModule } from './department/department.module';
 import { Department } from './department/department.entity';
 import { Employees } from './employees/employees.entity';
+import { AttendanceModule } from './attendance/attendance.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { Employees } from './employees/employees.entity';
     }),
     EmployeesModule,
     DepartmentModule,
+    AttendanceModule,
   ],
   controllers: [AppController],
   providers: [AppService],

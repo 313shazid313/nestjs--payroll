@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import {
   IsEmail,
   IsNotEmpty,
@@ -24,6 +25,7 @@ export class EmployeeCreateDto {
 
   @IsNotEmpty({ message: 'joiningDate is required' })
   @IsDate({ message: 'joiningDate must be a valid date' })
+  @Type(() => Date)
   joiningDate!: Date;
 
   @IsNotEmpty({ message: 'department_id is required' })
