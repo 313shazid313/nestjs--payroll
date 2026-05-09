@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Attendance } from './attendance.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AttendanceCreateDto } from './dtos/createAttendance.dto';
 
 @Injectable()
 export class AttendanceService {
@@ -9,5 +10,7 @@ export class AttendanceService {
     @InjectRepository(Attendance)
     private attendanceRepository: Repository<Attendance>,
   ) {}
-  //   createAttendence() {}
+  createAttendence(attendanceCreateDto: AttendanceCreateDto) {
+    
+  }
 }

@@ -15,4 +15,7 @@ export class AttendanceCreateDto {
   @IsArray({ message: 'status should be array' })
   @IsEnum(AttendanceStatus, { each: true })
   status: AttendanceStatus[] = [];
+
+  @IsNotEmpty({ message: 'checkIn is required' })
+  checkIn!: boolean;
 }
