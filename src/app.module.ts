@@ -13,6 +13,7 @@ import { Employees } from './employees/employees.entity';
 import { AttendanceModule } from './attendance/attendance.module';
 import { Attendance } from './attendance/attendance.entity';
 import { HolidayModule } from './holiday/holiday.module';
+import { Holiday } from './holiday/holiday.entity';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { HolidayModule } from './holiday/holiday.module';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        entities: [Users, Department, Employees, Attendance], //! add all entities here
+        entities: [Users, Department, Employees, Attendance, Holiday], //! add all entities here
         synchronize: true, //! for only development mode it should be true
         host: 'localhost',
         port: 5432,

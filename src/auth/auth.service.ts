@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  ConflictException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from 'src/users/users.entity';
 import { Repository } from 'typeorm';
@@ -21,7 +25,7 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException('User not found');
     }
 
     const isPasswordValid = await bcrypt.compare(
@@ -30,7 +34,7 @@ export class AuthService {
     );
 
     if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException('Invalid password');
     }
 
     const payload = {
@@ -50,7 +54,7 @@ export class AuthService {
     });
 
     if (user) {
-      return 'the user with this email already exists';
+      throw new ConflictException('Email already exists');
     }
 
     const hashedPassword = await bcrypt.hash(userDto.password, 10);

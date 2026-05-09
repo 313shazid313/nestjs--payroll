@@ -10,7 +10,5 @@ export class AttendanceService {
     @InjectRepository(Attendance)
     private attendanceRepository: Repository<Attendance>,
   ) {}
-  createAttendence(attendanceCreateDto: AttendanceCreateDto) {
-    
-  }
+  createAttendence(attendanceCreateDto: AttendanceCreateDto) {}
 }
