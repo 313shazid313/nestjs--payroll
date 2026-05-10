@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Patch } from '@nestjs/common';
 import { AttendanceService } from './attendance.service';
 import { AttendanceCreateDto } from './dtos/createAttendance.dto';
 
@@ -28,5 +28,10 @@ export class AttendanceController {
     @Param('year') year: number,
   ) {
     return this.attendanceService.monthlyWorkingHour(id, month, year);
+  }
+
+  @Patch('check-out/:id')
+  checkOut(@Param('id') id: number) {
+    return this.attendanceService.checkOut(id);
   }
 }

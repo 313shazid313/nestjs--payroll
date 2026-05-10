@@ -15,7 +15,7 @@ export class AttendanceService {
     private attendanceRepository: Repository<Attendance>,
   ) {}
 
-  //! Create attendance record for an employee
+  //! Create attendance record for an employee (checkin)
   async createAttendance(attendanceCreateDto: AttendanceCreateDto) {
     const existesAttendance = await this.attendanceRepository.findOne({
       where: {
@@ -87,7 +87,7 @@ export class AttendanceService {
       },
       relations: ['employee_id'],
     });
-
+    console.log(totalAttendance);
     return totalAttendance * 8;
   }
 
