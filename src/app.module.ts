@@ -14,6 +14,7 @@ import { AttendanceModule } from './attendance/attendance.module';
 import { Attendance } from './attendance/attendance.entity';
 import { HolidayModule } from './holiday/holiday.module';
 import { Holiday } from './holiday/holiday.entity';
+import { SalaryStructureModule } from './salary-structure/salary-structure.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { Holiday } from './holiday/holiday.entity';
     DepartmentModule,
     AttendanceModule,
     HolidayModule,
+    SalaryStructureModule,
   ],
   controllers: [AppController],
   providers: [AppService],
