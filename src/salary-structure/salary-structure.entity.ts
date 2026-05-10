@@ -16,7 +16,7 @@ export class SalaryStructure {
   @OneToOne(() => Employees, (employee) => employee.id, {
     nullable: false,
   })
-  employee_id!: string;
+  employee_id!: number;
 
   @Column({
     type: 'decimal',
