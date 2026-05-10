@@ -3,9 +3,10 @@ import { AttendanceService } from './attendance.service';
 import { AttendanceController } from './attendance.controller';
 import { Attendance } from './attendance.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Holiday } from '../holiday/holiday.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Attendance])],
+  imports: [TypeOrmModule.forFeature([Attendance, Holiday])],
   providers: [AttendanceService],
   controllers: [AttendanceController],
 })

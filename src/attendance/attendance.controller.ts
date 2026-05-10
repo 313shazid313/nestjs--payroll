@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get } from '@nestjs/common';
 import { AttendanceService } from './attendance.service';
 import { AttendanceCreateDto } from './dtos/createAttendance.dto';
 
@@ -9,5 +9,15 @@ export class AttendanceController {
   @Post()
   createAttendance(@Body() attendanceCreateDto: AttendanceCreateDto) {
     return this.attendanceService.createAttendance(attendanceCreateDto);
+  }
+
+  @Get()
+  getAllAttendances() {
+    return this.attendanceService.getAllAttendances();
+  }
+
+  @Get(':id')
+  getAttendanceById(id: number) {
+    return this.attendanceService.getAttendanceById(id);
   }
 }
