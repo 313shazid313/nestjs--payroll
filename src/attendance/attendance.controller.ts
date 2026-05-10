@@ -1,27 +1,44 @@
 import { Controller, Post, Body, Get, Param, Patch } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
+
 import { AttendanceService } from './attendance.service';
 import { AttendanceCreateDto } from './dtos/createAttendance.dto';
 
+@ApiTags('Attendance')
 @Controller('attendance')
 export class AttendanceController {
   constructor(private attendanceService: AttendanceService) {}
 
   @Post()
+  @ApiOperation({ summary: 'Create a new attendance record' })
+  @ApiResponse({ status: 201, description: 'Attendance created successfully' })
+  @ApiResponse({ status: 400, description: 'Invalid payload' })
   createAttendance(@Body() attendanceCreateDto: AttendanceCreateDto) {
     return this.attendanceService.createAttendance(attendanceCreateDto);
   }
 
   @Get()
+  @ApiOperation({ summary: 'Get all attendance records' })
+  @ApiResponse({ status: 200, description: 'List of all attendances' })
   getAllAttendances() {
     return this.attendanceService.getAllAttendances();
   }
 
   @Get(':id')
-  getAttendanceById(id: number) {
+  @ApiOperation({ summary: 'Get attendance by ID' })
+  @ApiParam({ name: 'id', type: Number, description: 'Attendance ID' })
+  @ApiResponse({ status: 200, description: 'Attendance found' })
+  @ApiResponse({ status: 404, description: 'Attendance not found' })
+  getAttendanceById(@Param('id') id: number) {
     return this.attendanceService.getAttendanceById(id);
   }
 
   @Get('monthly-working-hours/:id/:month/:year')
+  @ApiOperation({ summary: 'Get monthly working hours for an employee' })
+  @ApiParam({ name: 'id', type: Number, description: 'Employee ID' })
+  @ApiParam({ name: 'month', type: Number, description: 'Month (1-12)' })
+  @ApiParam({ name: 'year', type: Number, description: 'Year (e.g. 2026)' })
+  @ApiResponse({ status: 200, description: 'Monthly working hours fetched' })
   monthlyWorkingHour(
     @Param('id') id: number,
     @Param('month') month: number,
@@ -31,6 +48,10 @@ export class AttendanceController {
   }
 
   @Patch('check-out/:id')
+  @ApiOperation({ summary: 'Check out an attendance record' })
+  @ApiParam({ name: 'id', type: Number, description: 'Attendance ID' })
+  @ApiResponse({ status: 200, description: 'Check-out successful' })
+  @ApiResponse({ status: 404, description: 'Attendance not found' })
   checkOut(@Param('id') id: number) {
     return this.attendanceService.checkOut(id);
   }

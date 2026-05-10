@@ -10,6 +10,7 @@ import { RegisterUserDto } from './dtos/userRegister.dto';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  //! User login endpoint
   @Post('login')
   @ApiOperation({
     summary: 'User login',
@@ -25,6 +26,7 @@ export class AuthController {
         user: {
           id: 1,
           email: 'user@example.com',
+          roles: ['admin', 'employee'],
         },
       },
     },
@@ -34,6 +36,7 @@ export class AuthController {
     return this.authService.login(loginDto);
   }
 
+  //! Register new user endpoint
   @Post('register')
   @ApiOperation({
     summary: 'Register new user',
