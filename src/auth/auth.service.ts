@@ -10,6 +10,7 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dtos/userLogin.dto';
 import { RegisterUserDto } from './dtos/userRegister.dto';
+import { Response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -19,7 +20,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async login(userLoginDto: LoginDto) {
+  async login(userLoginDto: LoginDto, res: Response) {
     const user = await this.userRepository.findOne({
       where: { email: userLoginDto.email },
     });
@@ -40,11 +41,18 @@ export class AuthService {
     const payload = {
       id: user.id,
       email: user.email,
+      roles: user.roles,
     };
+    const accessToken = this.jwtService.sign(payload);
 
+    res.cookie('access_token', accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+    });
     return {
-      access_token: await this.jwtService.signAsync(payload),
       payload,
+      accessToken,
     };
   }
 
