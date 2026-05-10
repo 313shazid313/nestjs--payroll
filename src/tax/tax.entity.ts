@@ -1,0 +1,40 @@
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+
+@Entity()
+export class Tax {
+  @PrimaryGeneratedColumn()
+  id!: number;
+
+  @Column({
+    type: 'varchar',
+    nullable: false,
+    length: 100,
+    unique: true,
+  })
+  slab!: string;
+
+  @Column({
+    type: 'number',
+    nullable: false,
+  })
+  percentage!: string;
+
+  @CreateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+  })
+  createdAt!: Date;
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+    onUpdate: 'CURRENT_TIMESTAMP(6)',
+  })
+  updatedAt!: Date;
+}

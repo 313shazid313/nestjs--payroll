@@ -50,7 +50,7 @@ export class AuthController {
       example: {
         id: 1,
         email: 'user@example.com',
-        roles: ['USER'],
+        roles: ['admin'],
         createdAt: '2026-05-10T12:00:00.000Z',
       },
     },
