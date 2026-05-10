@@ -38,7 +38,7 @@ export class Attendance {
 
   @Column({
     type: 'boolean',
-    nullable: false,
+    nullable: true,
   })
   checkOut?: boolean;
 }
