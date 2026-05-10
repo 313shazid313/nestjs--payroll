@@ -17,6 +17,7 @@ export class AttendanceService {
 
   //! Create attendance record for an employee (checkin)
   async createAttendance(attendanceCreateDto: AttendanceCreateDto) {
+    //! Check if attendance for the employee on the given date already exists
     const existesAttendance = await this.attendanceRepository.findOne({
       where: {
         date: attendanceCreateDto.date,
@@ -29,7 +30,7 @@ export class AttendanceService {
       );
     }
 
-    // Check if the date is a holiday
+    //! Check if the date is a holiday
     const isHoliday = await this.attendanceRepository.manager.findOne(
       'Holiday',
       {
