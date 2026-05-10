@@ -16,6 +16,9 @@ import { HolidayModule } from './holiday/holiday.module';
 import { Holiday } from './holiday/holiday.entity';
 import { SalaryStructureModule } from './salary-structure/salary-structure.module';
 import { PayrollModule } from './payroll/payroll.module';
+import { TaxService } from './tax/tax.service';
+import { TaxController } from './tax/tax.controller';
+import { TaxModule } from './tax/tax.module';
 
 @Module({
   imports: [
@@ -41,8 +44,9 @@ import { PayrollModule } from './payroll/payroll.module';
     HolidayModule,
     SalaryStructureModule,
     PayrollModule,
+    TaxModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, TaxController],
+  providers: [AppService, TaxService],
 })
 export class AppModule {}
