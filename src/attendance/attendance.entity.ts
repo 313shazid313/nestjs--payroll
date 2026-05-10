@@ -28,17 +28,11 @@ export class Attendance {
     array: true,
     enum: AttendanceStatus,
   })
-  status!: AttendanceStatus;
+  status!: AttendanceStatus[];
 
-  @Column({
-    type: 'boolean',
-    nullable: false,
-  })
-  checkIn?: boolean;
+  @Column({ type: 'timestamp', nullable: true })
+  checkInTime?: Date;
 
-  @Column({
-    type: 'boolean',
-    nullable: true,
-  })
-  checkOut?: boolean;
+  @Column({ type: 'timestamp', nullable: true })
+  checkOutTime?: Date;
 }
