@@ -19,21 +19,20 @@ export class AttendanceService {
     const existesAttendance = await this.attendanceRepository.findOne({
       where: {
         date: attendanceCreateDto.date,
+        employee_id: { id: attendanceCreateDto.employee_id },
       },
     });
 
     if (existesAttendance) {
       throw new ConflictException(
-        'Attendance for this employee on this date already exists in this date',
+        'Attendance already exists for this employee on this date',
       );
     }
 
     const isHoliday = await this.attendanceRepository.manager.findOne(
       'Holiday',
       {
-        where: {
-          date: attendanceCreateDto.date,
-        },
+        where: { date: attendanceCreateDto.date },
       },
     );
 
@@ -41,21 +40,21 @@ export class AttendanceService {
       throw new ConflictException('Attendance cannot be created on a holiday');
     }
 
-    //! Check if the employee is late
-    if (attendanceCreateDto.date > officeStartTime && !isHoliday) {
-      const attendance = this.attendanceRepository.create({
-        ...attendanceCreateDto,
-        employee_id: { id: attendanceCreateDto.employee_id },
-        status: AttendanceStatus.LATE,
-      });
-      return await this.attendanceRepository.save(attendance);
+    let status = attendanceCreateDto.status;
+
+    // Example late logic (adjust to your system)
+    const officeStartHour = 9;
+    if (attendanceCreateDto.date.getHours() > officeStartHour) {
+      status = AttendanceStatus.LATE;
     }
 
     const attendance = this.attendanceRepository.create({
       ...attendanceCreateDto,
+      status,
       employee_id: { id: attendanceCreateDto.employee_id },
     });
-    return await this.attendanceRepository.save(attendance);
+
+    return this.attendanceRepository.save(attendance);
   }
 
   async getAllAttendances() {

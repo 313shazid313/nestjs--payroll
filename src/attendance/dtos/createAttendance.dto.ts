@@ -1,21 +1,26 @@
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsDate, IsEnum, IsArray } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsDate,
+  IsEnum,
+  IsBoolean,
+  IsOptional,
+} from 'class-validator';
 import { AttendanceStatus } from '../attendance.entity';
 
 export class AttendanceCreateDto {
-  @IsNotEmpty({ message: 'employee_id is required' })
+  @IsNotEmpty()
   employee_id!: number;
 
-  @IsNotEmpty({ message: 'date is required' })
-  @IsDate({ message: 'date must be a valid date' })
+  @IsNotEmpty()
+  @IsDate()
   @Type(() => Date)
   date!: Date;
 
-  @IsNotEmpty()
-  @IsArray({ message: 'status should be array' })
-  @IsEnum(AttendanceStatus, { each: true })
+  @IsEnum(AttendanceStatus)
   status!: AttendanceStatus;
 
-  @IsNotEmpty({ message: 'checkIn is required' })
-  checkIn: boolean = true;
+  @IsBoolean()
+  @IsOptional()
+  checkIn?: boolean;
 }
