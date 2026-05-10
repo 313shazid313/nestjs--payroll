@@ -1,22 +1,38 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { OneToOne } from 'typeorm';
+import { Employees } from '../employees/employees.entity';
 
 @Entity()
 export class SalaryStructure {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({
-    type: 'varchar',
+  @OneToOne(() => Employees, (employee) => employee.id, {
     nullable: false,
-    length: 100,
-    unique: true,
   })
-  email!: string;
+  employee_id!: string;
 
   @Column({
-    type: 'varchar',
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
     nullable: false,
-    length: 100,
   })
-  password!: string;
+  basicSalary!: number;
+
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    nullable: false,
+  })
+  hra!: number;
+
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    nullable: false,
+  })
+  allowance!: number;
 }
