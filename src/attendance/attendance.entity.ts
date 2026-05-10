@@ -1,5 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Employees } from '../employees/employees.entity';
+import { CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 export enum AttendanceStatus {
   PRESENT = 'present',
@@ -35,4 +36,17 @@ export class Attendance {
 
   @Column({ type: 'timestamp', nullable: true })
   checkOutTime?: Date;
+
+  @CreateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+  })
+  createdAt!: Date;
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+    onUpdate: 'CURRENT_TIMESTAMP(6)',
+  })
+  updatedAt!: Date;
 }
