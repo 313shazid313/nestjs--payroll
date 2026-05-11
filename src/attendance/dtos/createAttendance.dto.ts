@@ -28,7 +28,7 @@ export class AttendanceCreateDto {
   @IsNotEmpty({ message: 'date is required' })
   @IsDate({ message: 'date must be a valid date' })
   @Type(() => Date)
-  date!: Date;
+  date: Date = new Date();
 
   // @ApiProperty({
   //   example: [AttendanceStatus.PRESENT],
