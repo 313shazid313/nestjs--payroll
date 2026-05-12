@@ -61,20 +61,18 @@ export class EmployeesController {
   @ApiResponse({
     status: 200,
     description: 'List of employees',
-    // schema: {
-    //   example: [
-    //     {
-    //       id: 1,
-    //       name: 'John Doe',
-    //       email: 'john@example.com',
-    //     },
-    //     {
-    //       id: 2,
-    //       name: 'Jane Smith',
-    //       email: 'jane@example.com',
-    //     },
-    //   ],
-    // },
+    schema: {
+      example: {
+        id: 1,
+        name: 'John Doe',
+        email: 'john.doe@example.com',
+        phone: '+8801712345678',
+        joiningDate: '2026-05-10',
+        department_id: 1,
+        base_salary: 50000,
+        status: true,
+      },
+    },
   })
   async getAllEmployees() {
     return this.employeesService.getAllEmployees();
