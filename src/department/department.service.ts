@@ -13,7 +13,7 @@ export class DepartmentService {
   ) {}
 
   async createDepartment(departmentDto: DepartmentDto) {
-    console.log('Received department DTO:', departmentDto);
+    // console.log('Received department DTO:', departmentDto);
 
     const existingDepartment = await this.departmentRepository.findOne({
       where: { name: departmentDto.name },

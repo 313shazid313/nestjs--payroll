@@ -15,7 +15,15 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
 
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('api', app, document, {
+    swaggerOptions: {
+      filter: true,
+      displayOperationId: true,
+      displayRequestDuration: true,
+      persistAuthorization: true,
+      deepLinking: true,
+    },
+  });
 
   app.useGlobalPipes(
     new ValidationPipe({

@@ -4,10 +4,11 @@ import { EmployeesService } from './employees.service';
 import { Department } from 'src/department/department.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Employees } from './employees.entity';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   controllers: [EmployeesController],
   providers: [EmployeesService],
-  imports: [TypeOrmModule.forFeature([Employees, Department])],
+  imports: [TypeOrmModule.forFeature([Employees, Department]), AuthModule],
 })
 export class EmployeesModule {}

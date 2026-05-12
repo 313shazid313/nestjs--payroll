@@ -88,7 +88,7 @@ export class AttendanceService {
       },
       relations: ['employee_id'],
     });
-    console.log(totalAttendance);
+    // console.log(totalAttendance);
     return totalAttendance * 8;
   }
 

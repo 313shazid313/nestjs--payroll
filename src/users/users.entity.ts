@@ -37,7 +37,7 @@ export class Users {
     type: 'enum',
     array: true,
     enum: UserRole,
-    default: [UserRole.ADMIN],
+    default: [UserRole.EMPLOYEE],
   })
   roles!: UserRole[];
 

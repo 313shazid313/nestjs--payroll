@@ -6,6 +6,7 @@ import {
   Delete,
   Body,
   Param,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -13,10 +14,16 @@ import {
   ApiResponse,
   ApiParam,
   ApiBody,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 
 import { EmployeesService } from './employees.service';
 import { EmployeeCreateDto } from './dtos/employeesCreate.dto';
+
+import { AuthGuard } from '@nestjs/passport';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { UserRole } from '../users/users.entity';
 
 @ApiTags('Employees')
 @Controller('employees')
@@ -47,24 +54,27 @@ export class EmployeesController {
   }
 
   @Get()
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(UserRole.ADMIN, UserRole.HR_MANAGER)
   @ApiOperation({ summary: 'Get all employees' })
   @ApiResponse({
     status: 200,
     description: 'List of employees',
-    schema: {
-      example: [
-        {
-          id: 1,
-          name: 'John Doe',
-          email: 'john@example.com',
-        },
-        {
-          id: 2,
-          name: 'Jane Smith',
-          email: 'jane@example.com',
-        },
-      ],
-    },
+    // schema: {
+    //   example: [
+    //     {
+    //       id: 1,
+    //       name: 'John Doe',
+    //       email: 'john@example.com',
+    //     },
+    //     {
+    //       id: 2,
+    //       name: 'Jane Smith',
+    //       email: 'jane@example.com',
+    //     },
+    //   ],
+    // },
   })
   async getAllEmployees() {
     return this.employeesService.getAllEmployees();
