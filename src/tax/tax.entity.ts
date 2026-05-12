@@ -12,18 +12,26 @@ export class Tax {
   id!: number;
 
   @Column({
-    type: 'varchar',
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
     nullable: false,
-    length: 100,
-    unique: true,
   })
-  slab!: string;
+  minSalary!: number;
 
   @Column({
-    type: 'number',
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
     nullable: false,
   })
-  percentage!: string;
+  maxSalary!: number;
+
+  @Column({
+    type: 'int',
+    nullable: false,
+  })
+  percentage!: number;
 
   @CreateDateColumn({
     type: 'timestamp',

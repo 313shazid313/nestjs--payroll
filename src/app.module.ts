@@ -19,6 +19,7 @@ import { PayrollModule } from './payroll/payroll.module';
 import { TaxService } from './tax/tax.service';
 import { TaxController } from './tax/tax.controller';
 import { TaxModule } from './tax/tax.module';
+import { Tax } from './tax/tax.entity';
 
 @Module({
   imports: [
@@ -29,7 +30,7 @@ import { TaxModule } from './tax/tax.module';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        entities: [Users, Department, Employees, Attendance, Holiday], //! add all entities here
+        entities: [Users, Department, Employees, Attendance, Holiday, Tax], //! add all entities here
         synchronize: true, //! for only development mode it should be true
         host: 'localhost',
         port: 5432,
@@ -46,7 +47,7 @@ import { TaxModule } from './tax/tax.module';
     PayrollModule,
     TaxModule,
   ],
-  controllers: [AppController, TaxController],
-  providers: [AppService, TaxService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
