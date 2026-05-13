@@ -19,6 +19,7 @@ import { PayrollModule } from './payroll/payroll.module';
 import { TaxModule } from './tax/tax.module';
 import { Tax } from './tax/tax.entity';
 import { SalaryStructure } from './salary-structure/salary-structure.entity';
+import { Payroll } from './payroll/payroll.entity';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { SalaryStructure } from './salary-structure/salary-structure.entity';
           Holiday,
           Tax,
           SalaryStructure,
+          Payroll,
         ], //! add all entities here
         synchronize: true, //! for only development mode it should be true
         host: 'localhost',

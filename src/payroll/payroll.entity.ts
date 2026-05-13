@@ -19,8 +19,9 @@ export class Payroll {
   employee_id!: Employees;
 
   @Column({
-    type: 'string',
+    type: 'varchar',
     nullable: false,
+    length: 100,
   })
   month!: string;
 
