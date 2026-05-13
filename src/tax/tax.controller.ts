@@ -9,7 +9,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { TaxService } from './tax.service';
-import { CreateTaxDto } from './dtos/taxCreate.dto';
+import { CreateTaxDto } from './dtos/tax.dto';
 
 import {
   ApiTags,

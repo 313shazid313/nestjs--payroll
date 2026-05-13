@@ -1,9 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Department } from './department.entity';
 import { Repository } from 'typeorm';
 import { DepartmentDto } from './dtos/department.dto';
-import { HttpException, HttpStatus } from '@nestjs/common';
 
 @Injectable()
 export class DepartmentService {
@@ -20,14 +23,9 @@ export class DepartmentService {
     });
 
     if (existingDepartment) {
-      throw new HttpException(
-        {
-          success: false,
-          message: 'Department with this name already exists',
-          errorCode: 'DEPARTMENT_ALREADY_EXISTS',
-        },
-        HttpStatus.CONFLICT,
-      );
+      throw new ConflictException({
+        message: `Department name ${departmentDto.name} already exists`,
+      });
     }
 
     const department = this.departmentRepository.create({

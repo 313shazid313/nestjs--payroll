@@ -7,7 +7,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
 import { Tax } from './tax.entity';
-import { CreateTaxDto } from './dtos/taxCreate.dto';
+import { CreateTaxDto } from './dtos/tax.dto';
 
 @Injectable()
 export class TaxService {
@@ -32,6 +32,8 @@ export class TaxService {
     const newTax = this.taxRepository.create(createTaxDto);
 
     await this.taxRepository.save(newTax);
+
+    return newTax;
   }
 
   async getAllTax() {
