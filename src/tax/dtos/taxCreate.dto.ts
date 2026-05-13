@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, Min } from 'class-validator';
+import { IsNumber, Min, Max, ValidateIf } from 'class-validator';
 
 export class CreateTaxDto {
   @ApiProperty({
@@ -16,6 +16,7 @@ export class CreateTaxDto {
   })
   @IsNumber()
   @Min(0)
+  @ValidateIf((o) => o.maxSalary !== null && o.maxSalary !== undefined)
   maxSalary!: number;
 
   @ApiProperty({
@@ -24,5 +25,6 @@ export class CreateTaxDto {
   })
   @IsNumber()
   @Min(0)
+  @Max(100)
   percentage!: number;
 }

@@ -11,11 +11,12 @@ export class TaxService {
     private taxRepository: Repository<Tax>,
   ) {}
 
+  //! create tax
   async createTax(createTaxDto: CreateTaxDto) {
-    const existingSlab = await this.taxRepository.find({
+    const existingSlab = await this.taxRepository.findOne({
       where: {
-        minSalary: LessThanOrEqual(createTaxDto.minSalary),
-        maxSalary: MoreThanOrEqual(createTaxDto.maxSalary),
+        minSalary: LessThanOrEqual(createTaxDto.maxSalary),
+        maxSalary: MoreThanOrEqual(createTaxDto.minSalary),
       },
     });
 
@@ -23,12 +24,21 @@ export class TaxService {
       throw new ConflictException('This slab exists in DB');
     }
 
-    const newTax = this.taxRepository.create({
-      minSalary: createTaxDto.minSalary,
-      maxSalary: createTaxDto.maxSalary,
-      percentage: createTaxDto.percentage,
-    });
+    const newTax = this.taxRepository.create(createTaxDto);
 
     await this.taxRepository.save(newTax);
+  }
+
+  async getAllTax() {
+    const data = await this.taxRepository.find();
+
+    return data;
+  }
+
+  async getTaxById(id: number) {
+    return await this.taxRepository.findOne({
+      where: { id },
+      relations: ['department_id'],
+    });
   }
 }
