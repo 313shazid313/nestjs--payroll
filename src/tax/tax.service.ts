@@ -1,4 +1,9 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
 import { Tax } from './tax.entity';
@@ -38,7 +43,39 @@ export class TaxService {
   async getTaxById(id: number) {
     return await this.taxRepository.findOne({
       where: { id },
-      relations: ['department_id'],
     });
+  }
+
+  async updateTax(id: number, createTaxDto: CreateTaxDto) {
+    const tax = await this.taxRepository.findOne({
+      where: { id },
+    });
+
+    if (!tax) {
+      throw new NotFoundException('Employee Does not exists');
+    }
+
+    tax.maxSalary = createTaxDto.maxSalary;
+    tax.minSalary = createTaxDto.minSalary;
+    tax.percentage = createTaxDto.percentage;
+
+    return await this.taxRepository.save(tax);
+  }
+
+  async deleteTax(id: number) {
+    if (!id) {
+      throw new BadRequestException('Invalid ID');
+    }
+
+    const result = await this.taxRepository.delete(id);
+
+    if (result.affected === 0) {
+      throw new NotFoundException('Item not found');
+    }
+
+    return {
+      success: true,
+      message: 'Tax deleted successfully',
+    };
   }
 }

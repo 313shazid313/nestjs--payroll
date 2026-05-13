@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Department } from './department.entity';
 import { Repository } from 'typeorm';
@@ -49,7 +49,7 @@ export class DepartmentService {
       where: { id },
     });
     if (!department) {
-      return null;
+      throw new NotFoundException('Department no found');
     }
     department.name = departmentDto.name;
     return this.departmentRepository.save(department);

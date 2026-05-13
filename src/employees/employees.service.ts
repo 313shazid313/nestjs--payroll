@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Employees } from './employees.entity';
@@ -49,7 +49,7 @@ export class EmployeesService {
     });
 
     if (!employee) {
-      return 'employee not found';
+      throw new ConflictException('Employee Does not exists');
     }
 
     const updatedEmployee = this.employeesRepository.merge(employee, {
