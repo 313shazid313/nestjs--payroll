@@ -6,8 +6,8 @@ import { SalaryStructure } from './salary-structure.entity';
 import { Employees } from '../employees/employees.entity';
 
 @Module({
+  imports: [TypeOrmModule.forFeature([SalaryStructure, Employees])],
   controllers: [SalaryStructureController],
   providers: [SalaryStructureService],
-  imports: [TypeOrmModule.forFeature([SalaryStructure, Employees])],
 })
 export class SalaryStructureModule {}

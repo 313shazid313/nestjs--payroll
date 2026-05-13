@@ -16,10 +16,9 @@ import { HolidayModule } from './holiday/holiday.module';
 import { Holiday } from './holiday/holiday.entity';
 import { SalaryStructureModule } from './salary-structure/salary-structure.module';
 import { PayrollModule } from './payroll/payroll.module';
-import { TaxService } from './tax/tax.service';
-import { TaxController } from './tax/tax.controller';
 import { TaxModule } from './tax/tax.module';
 import { Tax } from './tax/tax.entity';
+import { SalaryStructure } from './salary-structure/salary-structure.entity';
 
 @Module({
   imports: [
@@ -30,7 +29,15 @@ import { Tax } from './tax/tax.entity';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        entities: [Users, Department, Employees, Attendance, Holiday, Tax], //! add all entities here
+        entities: [
+          Users,
+          Department,
+          Employees,
+          Attendance,
+          Holiday,
+          Tax,
+          SalaryStructure,
+        ], //! add all entities here
         synchronize: true, //! for only development mode it should be true
         host: 'localhost',
         port: 5432,
