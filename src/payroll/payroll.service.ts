@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Payroll } from './payroll.entity';
 import { Repository } from 'typeorm';
@@ -52,12 +56,6 @@ export class PayrollService {
         },
       });
 
-      const salaryStructure = await this.salaryStructure.findOne({
-        where: {
-          employee_id: { id: id },
-        },
-      });
-
       const totalLateDay = await this.attendenceRepository.count({
         where: {
           employee_id: { id: id },
@@ -68,25 +66,29 @@ export class PayrollService {
         },
       });
 
-      const findEmployee = await this.employeeRepository.findOne({
-        where: { id: id },
+      const salaryStructureEmployee = await this.salaryStructure.findOne({
+        where: {
+          employee_id: { id: id },
+        },
       });
 
-      if (!findEmployee) {
-        throw new Error('Employee not found');
+      if (!salaryStructureEmployee) {
+        throw new NotFoundException(
+          'Salary Structure not found for this employee',
+        );
       }
 
-      const perdaySalary = findEmployee?.base_salary / 30;
+      const perdaySalary = salaryStructureEmployee?.basicSalary / 30;
 
       const totalSalary = totalPresentDayOntime * perdaySalary;
 
       // const totalLatePanalty = totalLateDay*
 
-      const deduction = totalLateDay * perdaySalary;
+      const deduction = totalLateDay * salaryStructureEmployee.latePenalty;
 
       const afterDeductionSalary = totalSalary - deduction;
 
-      return salaryStructure;
+      return afterDeductionSalary;
     }
   }
 }
