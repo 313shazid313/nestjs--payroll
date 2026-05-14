@@ -3,11 +3,13 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Department } from '../department/department.entity';
-
+import { Attendance } from 'src/attendance/attendance.entity';
+import { Payroll } from 'src/payroll/payroll.entity';
 @Entity()
 export class Employees {
   @PrimaryGeneratedColumn()
@@ -56,6 +58,12 @@ export class Employees {
     nullable: false,
   })
   joiningDate: Date;
+
+  @OneToMany(() => Attendance, (attendance) => attendance.employee_id)
+  attendance!: Attendance[];
+
+  @OneToMany(() => Payroll, (payroll) => payroll.employee_id)
+  payrolls!: Payroll[];
 
   constructor() {
     this.joiningDate = new Date();

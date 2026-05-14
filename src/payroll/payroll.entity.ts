@@ -2,18 +2,24 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Employees } from '../employees/employees.entity';
+
+export enum Status {
+  PENDING = 'pending',
+  APPROVED = 'approved',
+  PAID = 'paid',
+}
 
 @Entity()
 export class Payroll {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @OneToMany(() => Employees, (employee) => employee.id, {
+  @ManyToOne(() => Employees, (employee) => employee.payrolls, {
     nullable: false,
   })
   employee_id!: Employees;
@@ -50,11 +56,12 @@ export class Payroll {
   net!: number;
 
   @Column({
-    type: 'boolean',
-    nullable: false,
-    default: false,
+    type: 'enum',
+    array: true,
+    enum: Status,
+    default: [Status.PENDING],
   })
-  status!: boolean;
+  status!: Status[];
 
   @CreateDateColumn({
     type: 'timestamp',

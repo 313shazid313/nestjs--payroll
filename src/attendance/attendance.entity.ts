@@ -13,9 +13,7 @@ export class Attendance {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @ManyToOne(() => Employees, (Employees) => Employees.id, {
-    nullable: false,
-  })
+  @ManyToOne(() => Employees, (employee) => employee.attendance)
   employee_id!: Employees;
 
   @Column({
@@ -30,6 +28,12 @@ export class Attendance {
     enum: AttendanceStatus,
   })
   status!: AttendanceStatus[];
+
+  @Column({
+    type: 'int',
+    nullable: true,
+  })
+  latePenalty!: number;
 
   @Column({ type: 'timestamp', nullable: true })
   checkInTime?: Date;
