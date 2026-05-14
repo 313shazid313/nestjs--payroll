@@ -1,5 +1,11 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBody,
+  ApiParam,
+} from '@nestjs/swagger';
 import { PayrollService } from './payroll.service';
 import { MakePayrollDto } from './dtos/makePayroll.dto';
 
@@ -30,11 +36,33 @@ export class PayrollController {
     status: 500,
     description: 'Internal server error',
   })
-  createPayroll(@Body() makePayrollDto: MakePayrollDto) {
-    console.log(makePayrollDto.id, makePayrollDto.month);
-    return this.payrollService.createPayroll(
+  async createPayroll(@Body() makePayrollDto: MakePayrollDto) {
+    return await this.payrollService.createPayroll(
       makePayrollDto.id,
       makePayrollDto.month,
     );
+  }
+
+  @Get(':id')
+  @ApiOperation({
+    summary: 'Get employee payroll slip',
+    description: 'Returns the payroll slip for a specific employee by ID',
+  })
+  @ApiParam({
+    name: 'id',
+    type: Number,
+    description: 'Employee ID',
+    example: 1,
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Payroll slip retrieved successfully',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Employee not found',
+  })
+  async getAllPayroll(@Param('id') id: number) {
+    return this.payrollService.generatePaySlip(id);
   }
 }

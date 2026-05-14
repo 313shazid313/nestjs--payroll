@@ -100,4 +100,10 @@ export class PayrollService {
       return await this.payrollRepository.save(newPayroll);
     }
   }
+
+  async generatePaySlip(id: number) {
+    return await this.payrollRepository.findOne({
+      where: { employee: { id: id } },
+    });
+  }
 }
