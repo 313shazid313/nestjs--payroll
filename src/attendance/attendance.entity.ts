@@ -29,12 +29,6 @@ export class Attendance {
   })
   status!: AttendanceStatus[];
 
-  @Column({
-    type: 'int',
-    nullable: true,
-  })
-  latePenalty!: number;
-
   @Column({ type: 'timestamp', nullable: true })
   checkInTime?: Date;
 

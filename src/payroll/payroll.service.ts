@@ -6,6 +6,7 @@ import { SalaryStructure } from 'src/salary-structure/salary-structure.entity';
 import { Attendance, AttendanceStatus } from 'src/attendance/attendance.entity';
 import { ArrayContains, Raw } from 'typeorm';
 import { Employees } from 'src/employees/employees.entity';
+import { Tax } from 'src/tax/tax.entity';
 
 @Injectable()
 export class PayrollService {
@@ -21,6 +22,9 @@ export class PayrollService {
 
     @InjectRepository(Employees)
     private employeeRepository: Repository<Employees>,
+
+    @InjectRepository(Tax)
+    private taxRepository: Repository<Tax>,
   ) {}
 
   async createPayroll(id: number, month: number) {
@@ -48,6 +52,12 @@ export class PayrollService {
         },
       });
 
+      const salaryStructure = await this.salaryStructure.findOne({
+        where: {
+          employee_id: { id: id },
+        },
+      });
+
       const totalLateDay = await this.attendenceRepository.count({
         where: {
           employee_id: { id: id },
@@ -70,11 +80,13 @@ export class PayrollService {
 
       const totalSalary = totalPresentDayOntime * perdaySalary;
 
+      // const totalLatePanalty = totalLateDay*
+
       const deduction = totalLateDay * perdaySalary;
 
       const afterDeductionSalary = totalSalary - deduction;
 
-      return totalSalary;
+      return salaryStructure;
     }
   }
 }

@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -13,9 +14,10 @@ export class SalaryStructure {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @OneToOne(() => Employees, (employee) => employee.id, {
+  @OneToOne(() => Employees, (employee) => employee.salaryStructures, {
     nullable: false,
   })
+  @JoinColumn({ name: 'employee_id' })
   employee_id!: Employees;
 
   @Column({
@@ -25,6 +27,12 @@ export class SalaryStructure {
     nullable: false,
   })
   basicSalary!: number;
+
+  @Column({
+    type: 'int',
+    nullable: true,
+  })
+  latePenalty!: number;
 
   @Column({
     type: 'decimal',

@@ -4,12 +4,15 @@ import {
   Entity,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Department } from '../department/department.entity';
 import { Attendance } from 'src/attendance/attendance.entity';
 import { Payroll } from 'src/payroll/payroll.entity';
+import { SalaryStructure } from 'src/salary-structure/salary-structure.entity';
+
 @Entity()
 export class Employees {
   @PrimaryGeneratedColumn()
@@ -64,6 +67,12 @@ export class Employees {
 
   @OneToMany(() => Payroll, (payroll) => payroll.employee_id)
   payrolls!: Payroll[];
+
+  @OneToOne(
+    () => SalaryStructure,
+    (SalaryStructure) => SalaryStructure.employee_id,
+  )
+  salaryStructures!: SalaryStructure;
 
   constructor() {
     this.joiningDate = new Date();

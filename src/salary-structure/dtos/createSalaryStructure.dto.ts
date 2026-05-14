@@ -33,4 +33,12 @@ export class CreateSalaryStructureDto {
   @IsNumber()
   @Min(0)
   allowance!: number;
+
+  @ApiProperty({
+    example: 100,
+    description: 'Late Penalty',
+  })
+  @IsNumber()
+  @Min(0)
+  latePenalty!: number;
 }

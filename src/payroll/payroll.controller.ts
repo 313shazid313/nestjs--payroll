@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { PayrollService } from './payroll.service';
+import { MakePayrollDto } from './dtos/makePayroll.dto';
 
 @Controller('payroll')
 export class PayrollController {
@@ -7,7 +8,10 @@ export class PayrollController {
 
   //! this id is employee id
   @Post()
-  createPayroll(@Body('id') id: number, @Body('month') month: number) {
-    return this.payrollService.createPayroll(id, month);
+  createPayroll(@Body() makePayrollDto: MakePayrollDto) {
+    return this.payrollService.createPayroll(
+      makePayrollDto.id,
+      makePayrollDto.month,
+    );
   }
 }
