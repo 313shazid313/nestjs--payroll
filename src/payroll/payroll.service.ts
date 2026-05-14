@@ -36,12 +36,14 @@ export class PayrollService {
 
     const isPayrollAvailableForThisMonth = await this.payrollRepository.findOne(
       {
-        where: { employee_id: { id: id } },
+        where: { employee: { id: id } },
       },
     );
 
     if (isPayrollAvailableForThisMonth) {
-      throw new ConflictException('');
+      throw new ConflictException(
+        'Payroll is exists for this employee in this month',
+      );
     } else {
       const totalPresentDayOntime = await this.attendenceRepository.count({
         where: {
@@ -78,17 +80,24 @@ export class PayrollService {
         );
       }
 
-      const perdaySalary = salaryStructureEmployee?.basicSalary / 30;
+      const presentDaysSalary = salaryStructureEmployee?.basicSalary / 30;
 
-      const totalSalary = totalPresentDayOntime * perdaySalary;
-
-      // const totalLatePanalty = totalLateDay*
+      const totalSalary = totalPresentDayOntime * presentDaysSalary;
 
       const deduction = totalLateDay * salaryStructureEmployee.latePenalty;
 
       const afterDeductionSalary = totalSalary - deduction;
 
-      return afterDeductionSalary;
+      console.log(id, month);
+      const newPayroll = this.payrollRepository.create({
+        employee: { id: id },
+        month: month,
+        gross: totalSalary,
+        deduction: deduction,
+        net: afterDeductionSalary,
+      });
+
+      return await this.payrollRepository.save(newPayroll);
     }
   }
 }

@@ -65,7 +65,7 @@ export class Employees {
   @OneToMany(() => Attendance, (attendance) => attendance.employee_id)
   attendance!: Attendance[];
 
-  @OneToMany(() => Payroll, (payroll) => payroll.employee_id)
+  @OneToMany(() => Payroll, (payroll) => payroll.employee)
   payrolls!: Payroll[];
 
   @OneToOne(

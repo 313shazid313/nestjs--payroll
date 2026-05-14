@@ -1,14 +1,37 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { PayrollService } from './payroll.service';
 import { MakePayrollDto } from './dtos/makePayroll.dto';
 
+@ApiTags('Payroll')
 @Controller('payroll')
 export class PayrollController {
   constructor(private readonly payrollService: PayrollService) {}
 
-  //! this id is employee id
+  //! this id is for employee
   @Post()
+  @ApiOperation({
+    summary: 'Create payroll for an employee',
+    description: 'Generates payroll for a given employee ID and month.',
+  })
+  @ApiBody({
+    type: MakePayrollDto,
+    description: 'Payload containing employee id and month',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Payroll created successfully',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Invalid input data',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal server error',
+  })
   createPayroll(@Body() makePayrollDto: MakePayrollDto) {
+    console.log(makePayrollDto.id, makePayrollDto.month);
     return this.payrollService.createPayroll(
       makePayrollDto.id,
       makePayrollDto.month,

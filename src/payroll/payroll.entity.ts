@@ -22,14 +22,13 @@ export class Payroll {
   @ManyToOne(() => Employees, (employee) => employee.payrolls, {
     nullable: false,
   })
-  employee_id!: Employees;
+  employee!: Employees;
 
   @Column({
-    type: 'varchar',
+    type: 'int',
     nullable: false,
-    length: 100,
   })
-  month!: string;
+  month!: number;
 
   @Column({
     type: 'decimal',
