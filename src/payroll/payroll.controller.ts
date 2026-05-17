@@ -62,7 +62,12 @@ export class PayrollController {
     status: 404,
     description: 'Employee not found',
   })
-  async getAllPayroll(@Param('id') id: number) {
+  async getPayrollSlip(@Param('id') id: number) {
     return this.payrollService.generatePaySlip(id);
+  }
+
+  @Get()
+  async getAllPayrolls() {
+    return this.payrollService.getAllPayrolls();
   }
 }

@@ -52,6 +52,14 @@ export class Payroll {
     scale: 2,
     nullable: false,
   })
+  taxDeduction!: number;
+
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    nullable: false,
+  })
   net!: number;
 
   @Column({
