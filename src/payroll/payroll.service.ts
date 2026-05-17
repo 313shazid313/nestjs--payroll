@@ -1,17 +1,11 @@
-import {
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Payroll } from './payroll.entity';
 import { LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
 import { SalaryStructure } from 'src/salary-structure/salary-structure.entity';
 import { Attendance, AttendanceStatus } from 'src/attendance/attendance.entity';
 import { ArrayContains, Raw } from 'typeorm';
-import { Employees } from 'src/employees/employees.entity';
 import { Tax } from 'src/tax/tax.entity';
-import { find } from 'rxjs';
 
 @Injectable()
 export class PayrollService {
@@ -25,9 +19,6 @@ export class PayrollService {
     @InjectRepository(SalaryStructure)
     private salaryStructure: Repository<SalaryStructure>,
 
-    @InjectRepository(Employees)
-    private employeeRepository: Repository<Employees>,
-
     @InjectRepository(Tax)
     private taxRepository: Repository<Tax>,
   ) {}
@@ -35,6 +26,7 @@ export class PayrollService {
   async createPayroll(id: number, month: number) {
     // console.log(month, id);
 
+    // ! total workday
     const totalPresentDayOntime = await this.attendenceRepository.count({
       where: {
         employee_id: { id: id },
@@ -48,6 +40,7 @@ export class PayrollService {
       },
     });
 
+    //! late day count
     const totalLateDay = await this.attendenceRepository.count({
       where: {
         employee_id: { id: id },
@@ -58,6 +51,7 @@ export class PayrollService {
       },
     });
 
+    // ! salary structure for specfic employee
     const salaryStructureEmployee = await this.salaryStructure.findOne({
       where: {
         employee_id: { id: id },
